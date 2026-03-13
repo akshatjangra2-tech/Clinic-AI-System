@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femme Med Hospital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="header-left glow-border">
+    <h4>Femme Med Hospital</h4>
+    <p>
+      Sector-8, Dwarka<br>
+      New Delhi – 110077
+    </p>
+    <ul>
+      <li>24×7 Emergency & Delivery</li>
+      <li>Senior Lady Gynecologists</li>
+      <li>NICU & Labour Room</li>
+    </ul>
+    <div class="header-actions">
+      <a href="tel:09266285111" class="btn green">Call Now</a>
+      <a href="https://www.google.com/maps/search/?api=1&query=Femme+Med+Hospital+Dwarka"
+         target="_blank" class="btn gold">Open Map</a>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <h1>FEMME MED HOSPITAL</h1>
+    <div class="subtitle">Elegant · Ethical · Elite</div>
+    <div class="address">
+      Plot-4, Block-A, Sector-8, Dwarka • Open 24×7
+    </div>
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+<!-- ===== LEFT CARD ===== -->
+<section class="card">
+  <h3>Safe Motherhood Promise</h3>
+  <ul>
+    <li>Normal & C-Section Deliveries</li>
+    <li>High-Risk Pregnancy Care</li>
+    <li>NICU Ready at All Times</li>
+    <li>Women-First Care Team</li>
+  </ul>
+
+  <div class="trusted sparkle">
+    Trusted by 10,000+ Mothers
+  </div>
+
+  <div class="motherhood-stats">
+    <div class="stat-line">12+ Years Maternity Experience</div>
+    <div class="stat-line">3,500+ Successful Deliveries</div>
+  </div>
+
+  <h4 class="subhead">Our Lead Specialists</h4>
+  <div class="doctors">
+    <p><strong>Dr. Nidhi Singh</strong> – Gynecology</p>
+    <p><strong>Dr. Aditya Verma</strong> – High Risk Pregnancy</p>
+    <p><strong>Dr. Ankur Mehta</strong> – Emergency Care</p>
+    <p><strong>Dr. Riya Sharma</strong> – Obstetrics</p>
+    <p><strong>Dr. Ananya Gupta</strong> – Women Health</p>
+    <p><strong>Dr. Kavya Malhotra</strong> – Fertility</p>
+  </div>
+</section>
+
+<!-- ====== CENTER CARD ====== -->
+<section class="card">
+
+  <h2>Book Appointment</h2>
+
+  <input
+    id="patientName"
+    placeholder="Patient Name"
+  />
+
+  <input
+    id="phone"
+    placeholder="Phone Number"
+  />
+
+  <select id="doctor">
+    <option value="">Select Doctor</option>
+    <option>Dr. Nidhi Singh (Gynecology)</option>
+    <option>Dr. Aditya Verma (High Risk Pregnancy)</option>
+    <option>Dr. Ankur Mehta (Emergency Care)</option>
+  </select>
+
+  <input
+    id="date"
+    placeholder="dd-mm-yyyy"
+  />
+
+  <!-- ✅ SINGLE CONFIRM BUTTON (ONLY ONE) -->
+<button id="bookBtn" type="button" class="confirm-btn">
+  CONFIRM APPOINTMENT
+</button>
+
+  <!-- ✅ SIGNATURE (EXACT SAME AS BEFORE) -->
+  <div class="signature sparkle">
+    <span>TRUSTED MATERNITY CARE</span>
+    <h3>FEMME MED HOSPITAL</h3>
+    <p>Trusted by 10,000+ Mothers</p>
+  </div>
+
+</section>
+
+<!-- ===== RIGHT CARD ===== -->
+<section class="card ai-card">
+  <h3>🤖 Femme AI Assistant</h3>
+
+  <div class="ai-chat ai-chat-large">
+    <div class="bot-message">
+      <strong>AI:</strong> Hello 👋  
+      <br>Ask me about:
+      <ul>
+        <li>🍼 NICU availability</li>
+        <li>🚨 Emergencies</li>
+        <li>📅 Appointments</li>
+        <li>🏥 Hospital services</li>
+      </ul>
+    </div>
+
+    <!-- messages append here -->
+    <div id="chat-messages"></div>
+  </div>
+
+  <div class="ai-input">
+    <input id="userInput" placeholder="Type your message..." />
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <div class="quick-actions">
+    <button onclick="quickAction('nicu')">🍼 NICU</button>
+    <button onclick="quickAction('emergency')">🚨 Emergency</button>
+    <button onclick="quickAction('appointment')">📅 Appointment</button>
+    <button onclick="quickAction('call')">📞 Call</button>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  © Femme Med Hospital • Trusted Maternity & Women Care
+</footer>
+
+<!-- JS -->
+<script src="app.js"></script>
+
+<script>
+function quickAction(type) {
+  const map = {
+    nicu: "Is NICU available right now?",
+    emergency: "What emergency services are available?",
+    appointment: "How can I book an appointment?",
+    call: "Please share emergency contact number"
+  };
+  document.getElementById("userInput").value = map[type];
+  sendMessage();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femme Med — Admin Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-[#f7f4ef] to-[#efe7d6] text-gray-800">
+
+<!-- HEADER -->
+<header class="flex items-center justify-between px-8 py-5 bg-gradient-to-r from-[#b99b5f] to-[#d7b97c] shadow">
+  <div>
+    <h1 class="text-2xl font-bold text-white">Femme Med Hospital</h1>
+    <p class="text-sm text-white/80">Admin Command Center</p>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <span class="px-3 py-1 rounded-full bg-white/20 text-white text-sm">
+      Confidence Score: <b>92%</b> 🔥
+    </span>
+    <button onclick="toggleBlush()" class="px-4 py-2 bg-white text-[#b99b5f] rounded-lg font-semibold">
+      Blush Mode 💗
+    </button>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 px-8 py-6">
+  <div class="stat">Today Revenue<br><b>₹4.2 L</b></div>
+  <div class="stat">This Month<br><b>₹1.20 Cr 🔥</b></div>
+  <div class="stat">Leads Today<br><b>87</b></div>
+  <div class="stat">Active Doctors<br><b>14</b></div>
+</section>
+
+
+<!-- GRAPHS -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-8">
+  <div class="card">
+    <h3 class="title">Revenue Trend (12 Months)</h3>
+    <canvas id="revenueChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3 class="title">Department Heatmap (Revenue)</h3>
+    <canvas id="deptChart"></canvas>
+  </div>
+</section>
+
+<!-- CRM + LEADERBOARD -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 py-8">
+  <div class="card">
+    <h3 class="title">Top 5 Doctors 🏆</h3>
+    <ul class="space-y-3">
+      <li>Dr. Nidhi Singh — ₹1.12 Cr ⭐</li>
+      <li>Dr. Ananya Gupta — ₹98 L</li>
+      <li>Dr. Riya Sharma — ₹91 L</li>
+      <li>Dr. Kavya Malhotra — ₹85 L</li>
+      <li>Dr. Aditya Verma — ₹79 L</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3 class="title">CRM Snapshot</h3>
+    <p>New Leads: <b>312</b></p>
+    <p>Follow-ups Pending: <b>46</b></p>
+    <p>Avg Response Time: <b>2m 14s</b></p>
+
+    <button onclick="exportCSV()" class="mt-4 px-4 py-2 bg-[#b99b5f] text-white rounded">
+      Download Excel 📥
+    </button>
+  </div>
+</section>
+
+<!-- RECENT + APPOINTMENTS FLEX -->
+<section class="px-8 py-8">
+
+  <!-- TWO COLUMN GRID -->
+  <div class="grid grid-cols-1 gap-6">
+
+    <!-- LEFT: RECENT AI CHATS -->
+    <div class="card">
+      <h3 class="title">Recent AI Chats 🧠</h3>
+
+      <div id="chatLogs"
+        class="space-y-4 max-h-[400px] overflow-y-auto text-sm">
+        <p class="text-gray-400">Loading chats...</p>
+      </div>
+    </div>
+
+</section>
+
+
+<!-- FOOTER FLEX -->
+<footer class="text-center text-sm text-gray-500 pb-6">
+  “Same beds. Same doctors. Only the system changed.” 😌
+</footer>
+
+<script>
+/* 🍒 CHERRY #1 — BLUSH MODE */
+function toggleBlush() {
+  document.body.classList.toggle('bg-pink-50');
+}
+
+/* 🍒 CHERRY #2 — REVENUE CHART */
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [{
+      label: 'Revenue (₹ Lakh)',
+      data: [55,58,57,60,59,62,63,64,65,80,105,120],
+      borderColor: '#b99b5f',
+      backgroundColor: 'rgba(185,155,95,0.2)',
+      tension: 0.4,
+      fill: true
+    }]
+  }
+});
+
+/* 🍒 CHERRY #3 — DEPT HEATMAP */
+new Chart(document.getElementById('deptChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Surgery','IVF','Emergency','NICU','Radiology','General'],
+    datasets: [{
+      data: [110,95,89,78,65,60],
+      backgroundColor: '#d7b97c'
+    }]
+  }
+});
+
+/* 🍒 CHERRY #4 — EXCEL EXPORT */
+function exportCSV() {
+  const rows = [
+    ['Month','Revenue'],
+    ['Oct',80],
+    ['Nov',92],
+    ['Dec',105],
+    ['Jan',120]
+  ];
+
+  let csv = rows.map(r => r.join(',')).join('\n');
+  let blob = new Blob([csv], { type: 'text/csv' });
+  let url = URL.createObjectURL(blob);
+
+  let a = document.createElement('a');
+  a.href = url;
+  a.download = 'revenue_report.csv';
+  a.click();
+}
+
+/* 🍒 CHERRY #5 — CONFIDENCE MICRO-TOOLTIP */
+setTimeout(() => {
+  console.log("Founder confidence stable 😌");
+}, 2000);
+</script>
+
+<script>
+async function loadChatLogs() {
+  try {
+    const res = await fetch("/admin/chat-logs");
+    const data = await res.json();
+
+    const box = document.getElementById("chatLogs");
+    box.innerHTML = "";
+
+    data.forEach(chat => {
+      const div = document.createElement("div");
+      div.className =
+        "p-4 rounded-xl bg-[#f7f4ef] border border-[#e5dcc7]";
+
+      div.innerHTML = `
+        <p class="text-gray-700">
+          <b>User:</b> ${chat.user_message || "—"}
+        </p>
+        <p class="text-[#7a6233] mt-1">
+          <b>AI:</b> ${chat.ai_reply || "—"}
+        </p>
+        <p class="text-xs text-gray-400 mt-2">
+          ${chat.created_at || ""}
+        </p>
+      `;
+
+      box.appendChild(div);
+    });
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// page load
+loadChatLogs();
+
+// 🍒 Cherry: auto refresh every 30 sec
+setInterval(loadChatLogs, 30000);
+</script>
+
+<style>
+.stat {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  font-weight: 600;
+}
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.appointment-card {
+  background: white;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 12px;
+  border-left: 6px solid gold;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+}
+
+.confirm-btn {
+  background: green;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reject-btn {
+  background: red;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+</style>
+
+<script>
+/* ===============================
+   FEMME MED — Pending Appointments
+   DIRECT WORKING CODE
+================================ */
+
+async function loadPendingAppointments() {
+
+  const box = document.getElementById("pendingAppointments");
+
+  // Safety check
+  if (!box) {
+    console.log("❌ pendingAppointments div not found");
+    return;
+  }
+
+  // Loading UI
+  box.innerHTML = "<p style='color:gray;'>Loading appointments...</p>";
+
+  try {
+    // ✅ Correct API Route
+    const res = await fetch("/admin/pending-appointments");
+
+    if (!res.ok) {
+      box.innerHTML =
+        "<p style='color:red;'>API Error: " + res.status + "</p>";
+      return;
+    }
+
+    const data = await res.json();
+
+    // Empty case
+    if (data.length === 0) {
+      box.innerHTML =
+        "<p style='color:green;'>No pending appointments 🎉</p>";
+      return;
+    }
+
+    // Clear box
+    box.innerHTML = "";
+
+    // Render appointments
+    data.forEach((a) => {
+      box.innerHTML += `
+        <div style="
+          padding:12px;
+          margin-bottom:12px;
+          border:1px solid #ddd;
+          border-radius:10px;
+          background:#fff;
+        ">
+          <b>👤 ${a.name}</b><br>
+          📞 ${a.phone}<br>
+          🏥 ${a.doctor}<br>
+          📅 ${a.date}<br><br>
+
+          <button onclick="confirmAppointment(${a.id})"
+            style="
+              background:green;
+              color:white;
+              padding:6px 12px;
+              border:none;
+              border-radius:6px;
+              cursor:pointer;
+            ">
+            ✅ Confirm
+          </button>
+
+          <button onclick="rejectAppointment(${a.id})"
+            style="
+              background:red;
+              color:white;
+              padding:6px 12px;
+              border:none;
+              border-radius:6px;
+              cursor:pointer;
+              margin-left:10px;
+            ">
+            ❌ Reject
+          </button>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.log("❌ Fetch error:", err);
+    box.innerHTML =
+      "<p style='color:red;'>Server not reachable</p>";
+  }
+}
+
+/* ===============================
+   Confirm Appointment
+================================ */
+async function confirmAppointment(id) {
+  await fetch(/admin/confirm/${id}, { method: "POST" });
+  loadPendingAppointments();
+}
+
+/* ===============================
+   Reject Appointment
+================================ */
+async function rejectAppointment(id) {
+  await fetch(/admin/reject/${id}, { method: "POST" });
+  loadPendingAppointments();
+}
+
+/* ===============================
+   Auto Load on Page Open
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  loadPendingAppointments();
+});
+</script>
+
+<script src="/admin.js"></script>
+
+</body>
+</html>
